@@ -1,0 +1,39 @@
+.deudas-toolbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 12px;
+}
+
+.deudas-caption {
+    margin: 0;
+}
+
+.deudas-form {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 12px;
+    margin-bottom: 12px;
+}
+
+.deudas-actions {
+    grid-column: 1 / -1;
+    display: flex;
+    justify-content: flex-end;
+    gap: 8px;
+}
+
+.table-responsive {
+    overflow-x: auto;
+}
+
+table {
+    width: 100%;
+}
+
+@media (max-width: 920px) {
+    .deudas-form {
+        grid-template-columns: 1fr;
+    }
+}

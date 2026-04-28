@@ -1,0 +1,27 @@
+<h2 mat-dialog-title>Direccion del cliente</h2>
+
+<mat-dialog-content>
+    <form [formGroup]="form" class="direccion-form">
+        <mat-form-field appearance="outline" class="calle-field">
+            <mat-label>Calle</mat-label>
+            <input matInput formControlName="calle" />
+        </mat-form-field>
+        <mat-form-field appearance="outline">
+            <mat-label>Ciudad</mat-label>
+            <input matInput formControlName="ciudad" />
+        </mat-form-field>
+        <mat-form-field appearance="outline">
+            <mat-label>Provincia</mat-label>
+            <input matInput formControlName="provincia" />
+        </mat-form-field>
+        <mat-form-field appearance="outline">
+            <mat-label>Codigo postal</mat-label>
+            <input matInput formControlName="codigoPostal" />
+        </mat-form-field>
+    </form>
+</mat-dialog-content>
+
+<mat-dialog-actions align="end">
+    <button mat-stroked-button type="button" (click)="close()">Cancelar</button>
+    <button mat-flat-button color="primary" type="button" (click)="save()">Guardar</button>
+</mat-dialog-actions>

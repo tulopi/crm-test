@@ -1,0 +1,154 @@
+@if (loading()) {
+    <div class="estado-carga">
+        <mat-spinner diameter="30"></mat-spinner>
+        <span>Actualizando cuenta de negociacion...</span>
+    </div>
+}
+
+@if (!cuenta()) {
+    <mat-card class="daxa-card border-radius bg-white border-none d-block">
+        <mat-card-header>
+            <mat-card-title class="fw-medium text-black">Cuenta negociacion</mat-card-title>
+        </mat-card-header>
+        <mat-card-content>
+            <p class="text-muted mb-0">No existe una cuenta de negociacion vinculada al expediente seleccionado.</p>
+        </mat-card-content>
+    </mat-card>
+} @else if (!cuenta()!.planDePago.abierto) {
+    <mat-card class="daxa-card border-radius bg-white border-none d-block">
+        <mat-card-header>
+            <mat-card-title class="fw-medium text-black">Cuenta negociacion</mat-card-title>
+        </mat-card-header>
+        <mat-card-content>
+            <p class="mb-20">
+                Este cliente aun no tiene un plan de pagos abierto para este expediente. Puedes iniciar el flujo
+                desde aqui.
+            </p>
+            <button mat-flat-button color="primary" type="button" (click)="abrirPlanPagoModal()" [disabled]="loading()">
+                Generar plan de pagos
+            </button>
+        </mat-card-content>
+    </mat-card>
+} @else {
+    <div class="row g-3">
+        <div class="col-xl-4">
+            <mat-card class="daxa-card border-radius bg-white border-none d-block h-100">
+                <mat-card-header>
+                    <mat-card-title class="fw-medium text-black">Cuenta negociacion</mat-card-title>
+                </mat-card-header>
+                <mat-card-content>
+                    <div class="resumen-grid">
+                        <div>
+                            <span class="meta-label">Saldo</span>
+                            <strong class="meta-value">{{ cuenta()!.infoCuenta.saldo | currency: 'EUR' : 'symbol' : '1.2-2' : 'es' }}</strong>
+                        </div>
+                        <div>
+                            <span class="meta-label">Cuota</span>
+                            <strong class="meta-value">{{ cuenta()!.infoCuenta.cuota | currency: 'EUR' : 'symbol' : '1.2-2' : 'es' }}</strong>
+                        </div>
+                        <div>
+                            <span class="meta-label">Inicio</span>
+                            <strong class="meta-value">{{ cuenta()!.infoCuenta.fechaInicio | date: 'dd/MM/yyyy' }}</strong>
+                        </div>
+                        <div>
+                            <span class="meta-label">Fin</span>
+                            <strong class="meta-value">{{ cuenta()!.infoCuenta.fechaFin | date: 'dd/MM/yyyy' }}</strong>
+                        </div>
+                        <div>
+                            <span class="meta-label">Ultimo pago</span>
+                            <strong class="meta-value">{{ cuenta()!.infoCuenta.fechaUltimoPago | date: 'dd/MM/yyyy' }}</strong>
+                        </div>
+                    </div>
+
+                    <form [formGroup]="infoForm" class="info-form">
+                        <mat-form-field appearance="outline">
+                            <mat-label>Bienes muebles</mat-label>
+                            <mat-select formControlName="bienesMuebles">
+                                <mat-option [value]="true">Si</mat-option>
+                                <mat-option [value]="false">No</mat-option>
+                            </mat-select>
+                        </mat-form-field>
+                        <mat-form-field appearance="outline">
+                            <mat-label>Bienes inmuebles</mat-label>
+                            <mat-select formControlName="bienesInmuebles">
+                                <mat-option [value]="true">Si</mat-option>
+                                <mat-option [value]="false">No</mat-option>
+                            </mat-select>
+                        </mat-form-field>
+                        <mat-form-field appearance="outline">
+                            <mat-label>Ingresos brutos</mat-label>
+                            <input matInput type="number" formControlName="ingresosBrutos" />
+                        </mat-form-field>
+                        <mat-form-field appearance="outline">
+                            <mat-label>Ingresos netos</mat-label>
+                            <input matInput type="number" formControlName="ingresosNetos" />
+                        </mat-form-field>
+                        <mat-form-field appearance="outline">
+                            <mat-label>Objetivo ahorro</mat-label>
+                            <input matInput type="number" formControlName="objetivoAhorro" />
+                        </mat-form-field>
+                        <mat-form-field appearance="outline" class="motivo-field">
+                            <mat-label>Motivo</mat-label>
+                            <textarea matInput rows="3" formControlName="motivo"></textarea>
+                        </mat-form-field>
+                    </form>
+
+                    <button
+                        mat-flat-button
+                        color="primary"
+                        type="button"
+                        (click)="guardarInfoCuenta()"
+                        [disabled]="loading() || modoSoloLectura"
+                    >
+                        Guardar cambios
+                    </button>
+                </mat-card-content>
+            </mat-card>
+        </div>
+
+        <div class="col-xl-8">
+            <mat-card class="daxa-card border-radius bg-white border-none d-block h-100">
+                <mat-card-header>
+                    <mat-card-title class="fw-medium text-black">Panel negociacion</mat-card-title>
+                </mat-card-header>
+                <mat-card-content>
+                    <mat-tab-group>
+                        <mat-tab label="Deudas">
+                            <app-cuenta-deudas
+                                [deudas]="cuenta()!.deudas"
+                                [saldo]="cuenta()!.infoCuenta.saldo"
+                                [readonly]="modoSoloLectura"
+                                (deudaCreated)="onDeudaCreated($event)"
+                                (deudaPagada)="onDeudaPagada($event)"
+                                (solicitudPagoCreada)="onSolicitudPagoCreada($event)"
+                            />
+                        </mat-tab>
+                        <mat-tab label="Movimientos">
+                            <app-cuenta-movimientos
+                                [movimientos]="cuenta()!.movimientos"
+                                [readonly]="modoSoloLectura"
+                                (movimientoActualizado)="onSolicitudPagoCreada(0)"
+                            />
+                        </mat-tab>
+                        <mat-tab label="Plan de Pagos / Cuotas">
+                            <app-plan-pagos-tab
+                                [cuotas]="cuenta()!.cuotas"
+                                [historialAccionesGlobal]="cuenta()!.historialAcciones"
+                                [readonly]="modoSoloLectura"
+                                (cuotaPagada)="onCuotaPagada($event)"
+                                (devolucionCreada)="onDevolucionCreada($event)"
+                            />
+                        </mat-tab>
+                        <mat-tab label="Proceso">
+                            <app-proceso-tab
+                                [proceso]="cuenta()!.procesoReunificacion"
+                                [readonly]="modoSoloLectura"
+                                (updated)="onProcesoUpdated($event)"
+                            />
+                        </mat-tab>
+                    </mat-tab-group>
+                </mat-card-content>
+            </mat-card>
+        </div>
+    </div>
+}

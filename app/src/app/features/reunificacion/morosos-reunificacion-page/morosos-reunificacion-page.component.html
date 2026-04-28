@@ -1,0 +1,130 @@
+<div class="feature-page" [class.component-dark-theme]="themeService.isDark()">
+    <app-page-breadcrumb [pageTitle]="pageTitle" [currentLabel]="currentLabel" />
+    <mat-card
+        class="daxa-card border-radius bg-white border-none d-block"
+        [class.component-dark-theme]="themeService.isDark()"
+    >
+        <mat-card-content>
+            <div class="reunif-page" [class.component-dark-theme]="themeService.isDark()">
+                <div class="page-header">
+                    <div class="header-content">
+                        <div>
+                            <h2 class="page-title">
+                                <i class="material-symbols-outlined reunif-icon" aria-hidden="true"
+                                    >handshake</i
+                                >
+                                Morosos Reunificacion
+                            </h2>
+                            <p class="page-subtitle">Gestión de deudores en negociación (demostración)</p>
+                        </div>
+                        <div class="header-stats">
+                            <span class="stat-badge"
+                                ><strong>{{ total }}</strong> registro(s)</span
+                            >
+                        </div>
+                    </div>
+                </div>
+
+                <div class="search-section">
+                    <div class="search-card">
+                        <div class="search-header">
+                            <i class="material-symbols-outlined" aria-hidden="true">tune</i>
+                            <span class="search-title">Filtros</span>
+                        </div>
+                        <div class="search-form">
+                            <div class="filters-grid">
+                                <div class="filter-item">
+                                    <label>Vista</label>
+                                    <mat-form-field appearance="outline" subscriptSizing="dynamic" class="w-100">
+                                        <mat-select [(ngModel)]="modoVista" name="modo">
+                                            <mat-option value="mio">Mi agente</mat-option>
+                                            <mat-option value="todos">Todos</mat-option>
+                                        </mat-select>
+                                    </mat-form-field>
+                                </div>
+                                @if (modoVista === 'mio') {
+                                    <div class="filter-item">
+                                        <label>Agente</label>
+                                        <mat-form-field
+                                            appearance="outline"
+                                            subscriptSizing="dynamic"
+                                            class="w-100"
+                                        >
+                                            <mat-select [(ngModel)]="agenteId" name="ag">
+                                                @for (a of agentes; track a.id) {
+                                                    <mat-option [value]="a.id">{{ a.name }}</mat-option>
+                                                }
+                                            </mat-select>
+                                        </mat-form-field>
+                                    </div>
+                                }
+                                <div class="filter-actions">
+                                    <button
+                                        mat-flat-button
+                                        color="primary"
+                                        type="button"
+                                        (click)="onCobrarPendientes()"
+                                    >
+                                        <mat-icon>payments</mat-icon>
+                                        Cobrar pendientes
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="table-wrap">
+                    <table
+                        mat-table
+                        [dataSource]="filas"
+                        class="w-100 morosos-mat"
+                    >
+                        <ng-container matColumnDef="i">
+                            <th mat-header-cell *matHeaderCellDef>#</th>
+                            <td mat-cell *matCellDef="let row" class="text-number">{{ rowIndex(row) }}</td>
+                        </ng-container>
+                        <ng-container matColumnDef="fechaPago">
+                            <th mat-header-cell *matHeaderCellDef>Fecha pago</th>
+                            <td mat-cell *matCellDef="let row">
+                                {{ row.fechaPago | date: 'dd/MM/yyyy' }}
+                            </td>
+                        </ng-container>
+                        <ng-container matColumnDef="cliente">
+                            <th mat-header-cell *matHeaderCellDef>Cliente</th>
+                            <td mat-cell *matCellDef="let row">{{ row.cliente }}</td>
+                        </ng-container>
+                        <ng-container matColumnDef="agente">
+                            <th mat-header-cell *matHeaderCellDef>Agente</th>
+                            <td mat-cell *matCellDef="let row">{{ row.agente }}</td>
+                        </ng-container>
+                        <ng-container matColumnDef="categoria">
+                            <th mat-header-cell *matHeaderCellDef>Categoría</th>
+                            <td mat-cell *matCellDef="let row" [ngClass]="categoriaClass(row.categoria)">
+                                {{ row.categoria }}
+                            </td>
+                        </ng-container>
+                        <ng-container matColumnDef="ultContacto">
+                            <th mat-header-cell *matHeaderCellDef>Últ. contacto</th>
+                            <td mat-cell *matCellDef="let row">
+                                {{ row.ultContacto | date: 'dd/MM/yyyy' }}
+                            </td>
+                        </ng-container>
+                        <ng-container matColumnDef="acciones">
+                            <th mat-header-cell *matHeaderCellDef>Acciones</th>
+                            <td mat-cell *matCellDef="let row">
+                                <button mat-stroked-button type="button">Ver</button>
+                            </td>
+                        </ng-container>
+                        <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></tr>
+                        <tr
+                            mat-row
+                            *matRowDef="let row; columns: displayedColumns"
+                            [ngClass]="categoriaClass(row.categoria)"
+                        ></tr>
+                    </table>
+                </div>
+            </div>
+        </mat-card-content>
+    </mat-card>
+</div>

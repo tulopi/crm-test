@@ -1,0 +1,28 @@
+<div
+    [ngClass]="{'blank-page': isBlankShellRoute()}"
+    [class.card-borderd-theme]="themeService.isCardBorder()"
+    [class.card-border-radius]="themeService.isCardBorderRadius()"
+    [class.rtl-enabled]="themeService.isRTLEnabled()"
+>
+
+    <!-- Sidebar -->
+    <app-sidebar />
+
+    <!-- Main Content -->
+    <div
+        class="main-content transition d-flex flex-column"
+        [ngClass]="{'active': isSidebarToggled}"
+        [class.right-sidebar]="themeService.isRightSidebar()"
+        [class.hide-sidebar]="themeService.isHideSidebar()"
+    >
+        <app-header />
+        <router-outlet />
+        <!-- En rutas blank (auth, coming-soon) el header/footer están ocultos: este spacer rompía el layout vertical. -->
+        <div class="flex-grow-1" [class.d-none]="isBlankShellRoute()"></div>
+        <app-footer />
+    </div>
+
+    <!-- Customizer Settings -->
+    <app-customizer-settings />
+    
+</div>

@@ -1,0 +1,97 @@
+// Design tokens (paleta colors.png). Importar antes de utilities/ui-kit/typography/dark.
+
+:root {
+    /* Tipografía */
+    --fontFamily: 'Plus Jakarta Sans', system-ui, sans-serif;
+    --fontFamilyDisplay: 'Space Grotesk', system-ui, sans-serif;
+
+    /* Primario — rubí #BE123C */
+    --color-primary: #be123c;
+    --color-primary-hover: color-mix(in srgb, var(--color-primary) 90%, black);
+    --color-primary-active: color-mix(in srgb, var(--color-primary) 78%, black);
+    --color-primary-muted: color-mix(in srgb, var(--color-primary) 14%, white);
+    --text-on-primary: #ffffff;
+
+    /* Secundario — oro #FACC15 (acento; texto oscuro sobre oro relleno) */
+    --color-secondary: #facc15;
+    --color-secondary-hover: color-mix(in srgb, var(--color-secondary) 82%, black);
+    --color-secondary-active: color-mix(in srgb, var(--color-secondary) 68%, black);
+    --text-on-secondary: #422006;
+
+    /* Terciario — slate #111827 */
+    --color-tertiary: #111827;
+    --color-tertiary-hover: color-mix(in srgb, var(--color-tertiary) 88%, white);
+    --color-tertiary-active: color-mix(in srgb, var(--color-tertiary) 78%, white);
+    --text-on-tertiary: #ffffff;
+
+    /* Neutros / superficies (modo claro) */
+    --surface-page: #f9fafb;
+    --surface-card: #ffffff;
+    --surface-muted: #f3f4f6;
+    --surface-subtle: #e5e7eb;
+    --surface-accent-soft: color-mix(in srgb, var(--color-primary) 10%, var(--surface-page));
+    --surface-accent-tint: color-mix(in srgb, var(--color-primary) 8%, white);
+    --border-subtle: #e5e7eb;
+    --border-default: #d1d5db;
+    --border-strong: #9ca3af;
+
+    --text-primary: #111827;
+    --text-secondary: #4b5563;
+    --text-muted: #6b7280;
+
+    /* Estados semánticos (armonizados, no de la guía literal) */
+    --dangerColor: #dc2626;
+    --infoColor: #0284c7;
+    --warningColor: #ea580c;
+    --successColor: #16a34a;
+
+    /* Legacy — misma semántica que antes en plantilla */
+    --daxaColor: var(--color-primary);
+    --primaryColor: var(--color-secondary);
+    --blackColor: var(--text-primary);
+    --whiteColor: #ffffff;
+    --bodyColor: var(--text-muted);
+
+    --transition: 0.5s;
+    --fontSize: 16px;
+    --borderBoxShadow: rgba(15, 23, 42, 0.06) 0px 6px 24px 0px, rgba(15, 23, 42, 0.08) 0px 0px 0px 1px;
+
+    /* Fondos de alertas / soft UI */
+    --alert-primary-bg: color-mix(in srgb, var(--color-primary) 12%, white);
+    --alert-success-bg: color-mix(in srgb, var(--successColor) 18%, white);
+    --alert-danger-bg: color-mix(in srgb, var(--dangerColor) 14%, white);
+    --alert-warning-bg: color-mix(in srgb, var(--warningColor) 20%, white);
+    --alert-info-bg: color-mix(in srgb, var(--infoColor) 14%, white);
+
+    /* Superficies modo oscuro (alineado terciario + contraste legible) */
+    --surface-deepest-dark: #0b0f17;
+    --surface-page-dark: #131920;
+    --surface-card-dark: #1b232d;
+    --surface-raised-dark: #2c343e;
+}
+
+.dark-theme {
+    --blackColor: rgba(255, 255, 255, 0.87);
+    --bodyColor: rgba(255, 255, 255, 0.55);
+    --borderBoxShadow: rgba(0, 0, 0, 0.35) 0px 8px 28px 0px, rgba(0, 0, 0, 0.2) 0px 0px 0px 1px;
+
+    --surface-page: var(--surface-page-dark);
+    --surface-card: var(--surface-card-dark);
+    --surface-muted: color-mix(in srgb, var(--surface-card-dark) 85%, white);
+    --surface-subtle: color-mix(in srgb, var(--surface-card-dark) 70%, white);
+    --surface-accent-soft: color-mix(in srgb, var(--color-primary) 22%, var(--surface-card-dark));
+    --surface-accent-tint: color-mix(in srgb, var(--color-primary) 18%, var(--surface-card-dark));
+    --border-subtle: rgba(255, 255, 255, 0.1);
+    --border-default: rgba(255, 255, 255, 0.16);
+    --border-strong: rgba(255, 255, 255, 0.24);
+
+    --text-primary: rgba(255, 255, 255, 0.95);
+    --text-secondary: rgba(255, 255, 255, 0.78);
+    --text-muted: rgba(255, 255, 255, 0.52);
+
+    --alert-primary-bg: color-mix(in srgb, var(--color-primary) 28%, var(--surface-card-dark));
+    --alert-success-bg: color-mix(in srgb, var(--successColor) 26%, var(--surface-card-dark));
+    --alert-danger-bg: color-mix(in srgb, var(--dangerColor) 24%, var(--surface-card-dark));
+    --alert-warning-bg: color-mix(in srgb, var(--warningColor) 26%, var(--surface-card-dark));
+    --alert-info-bg: color-mix(in srgb, var(--infoColor) 24%, var(--surface-card-dark));
+}

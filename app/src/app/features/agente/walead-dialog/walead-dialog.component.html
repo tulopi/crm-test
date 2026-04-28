@@ -1,0 +1,28 @@
+<h2 mat-dialog-title>Configuración WaLead</h2>
+<mat-dialog-content [formGroup]="form">
+    <div class="pt-1">
+        <mat-form-field appearance="outline" class="w-100 mb-15" subscriptSizing="dynamic">
+            <mat-label>Empresa</mat-label>
+            <mat-select formControlName="empresa">
+                <mat-option value="">Seleccionar empresa</mat-option>
+                <mat-option value="tramideudas">Tramideudas</mat-option>
+            </mat-select>
+        </mat-form-field>
+        <mat-form-field appearance="outline" class="w-100 mb-15" subscriptSizing="dynamic">
+            <mat-label>Recibir WaLeads</mat-label>
+            <mat-select formControlName="recibir">
+                <mat-option [value]="false">No</mat-option>
+                <mat-option [value]="true">Sí</mat-option>
+            </mat-select>
+        </mat-form-field>
+        <mat-form-field appearance="outline" class="w-100" subscriptSizing="dynamic">
+            <mat-label>Sectores</mat-label>
+            <textarea matInput formControlName="sectoresText" rows="4" placeholder="Un sector por línea"></textarea>
+            <mat-hint>Escribe un sector por línea (equivalente a Enter en el CRM antiguo).</mat-hint>
+        </mat-form-field>
+    </div>
+</mat-dialog-content>
+<mat-dialog-actions align="end">
+    <button type="button" mat-stroked-button (click)="cancelar()">Cancelar</button>
+    <button type="button" mat-flat-button color="primary" (click)="guardar()">Guardar</button>
+</mat-dialog-actions>

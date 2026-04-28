@@ -1,0 +1,35 @@
+<h2 mat-dialog-title>Generar plan de pagos</h2>
+
+<mat-dialog-content>
+    <form [formGroup]="form" class="plan-modal-form">
+        <mat-form-field appearance="outline">
+            <mat-label>Deuda total (EUR)</mat-label>
+            <input matInput type="number" formControlName="deudaTotal" />
+        </mat-form-field>
+
+        <mat-form-field appearance="outline">
+            <mat-label>Honorarios (EUR)</mat-label>
+            <input matInput type="number" formControlName="honorarios" />
+        </mat-form-field>
+
+        <mat-form-field appearance="outline">
+            <mat-label>Meses del plan</mat-label>
+            <input matInput type="number" formControlName="mesesPlan" />
+        </mat-form-field>
+
+        <mat-form-field appearance="outline">
+            <mat-label>Ingresos netos (EUR)</mat-label>
+            <input matInput type="number" formControlName="ingresosNetos" />
+        </mat-form-field>
+
+        <mat-form-field appearance="outline">
+            <mat-label>Gastos fijos (EUR)</mat-label>
+            <input matInput type="number" formControlName="gastosFijos" />
+        </mat-form-field>
+    </form>
+</mat-dialog-content>
+
+<mat-dialog-actions align="end">
+    <button mat-stroked-button type="button" (click)="close()">Cancelar</button>
+    <button mat-flat-button color="primary" type="button" (click)="submit()">Generar</button>
+</mat-dialog-actions>

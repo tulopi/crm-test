@@ -1,0 +1,114 @@
+<div class="feature-page">
+    <app-page-breadcrumb pageTitle="Ficha de cliente" currentLabel="Cliente" />
+
+    @if (loading()) {
+        <mat-card class="daxa-card border-radius bg-white border-none d-block">
+            <mat-card-content class="estado-carga">
+                <mat-spinner diameter="34"></mat-spinner>
+                <span>Cargando ficha del cliente...</span>
+            </mat-card-content>
+        </mat-card>
+    } @else if (notFound()) {
+        <mat-card class="daxa-card border-radius bg-white border-none d-block">
+            <mat-card-header>
+                <mat-card-title class="fw-medium text-black">Cliente no encontrado</mat-card-title>
+            </mat-card-header>
+            <mat-card-content>
+                <p class="text-muted">No existe un cliente con el identificador indicado en la ruta.</p>
+                <button mat-stroked-button routerLink="/clientes" type="button">Volver al listado</button>
+            </mat-card-content>
+        </mat-card>
+    } @else if (errorMessage()) {
+        <mat-card class="daxa-card border-radius bg-white border-none d-block">
+            <mat-card-header>
+                <mat-card-title class="fw-medium text-black">Error de carga</mat-card-title>
+            </mat-card-header>
+            <mat-card-content>
+                <p class="text-muted">{{ errorMessage() }}</p>
+                <div class="acciones">
+                    <button mat-stroked-button type="button" (click)="volver()">Volver</button>
+                    <button mat-flat-button color="primary" type="button" routerLink="/clientes">
+                        Ir a clientes
+                    </button>
+                </div>
+            </mat-card-content>
+        </mat-card>
+    } @else {
+        <mat-card class="daxa-card mb-25 border-radius bg-white border-none d-block">
+            <mat-card-header>
+                <mat-card-title class="fw-medium text-black">
+                    {{ cliente()!.nombre }} {{ cliente()!.apellido }}
+                </mat-card-title>
+                <mat-card-subtitle>Ficha de cliente</mat-card-subtitle>
+            </mat-card-header>
+            <mat-card-content>
+                <div class="cliente-resumen">
+                    <div>
+                        <span class="meta-label">Nombre preferido</span>
+                        <strong>{{ form.controls.nombrePreferido.value || 'Sin definir' }}</strong>
+                    </div>
+                    <div>
+                        <span class="meta-label">Movil</span>
+                        <strong>{{ form.controls.movil.value || 'Sin definir' }}</strong>
+                    </div>
+                    <div>
+                        <span class="meta-label">Documento</span>
+                        <strong>{{ form.controls.documento.value || 'Sin definir' }}</strong>
+                    </div>
+                    <div>
+                        <span class="meta-label">Email</span>
+                        <strong>{{ form.controls.email.value || 'Sin definir' }}</strong>
+                    </div>
+                    <div>
+                        <span class="meta-label">Horario de atencion</span>
+                        <strong>
+                            {{ form.controls.horarioAtencionInicio.value || '--:--' }} -
+                            {{ form.controls.horarioAtencionFin.value || '--:--' }}
+                        </strong>
+                    </div>
+                    <div>
+                        <span class="meta-label">Direccion</span>
+                        <strong>
+                            {{ form.controls.calle.value || 'Sin definir' }},
+                            {{ form.controls.ciudad.value || '-' }},
+                            {{ form.controls.provincia.value || '-' }}
+                        </strong>
+                    </div>
+                </div>
+                <div class="acciones">
+                    <button mat-stroked-button type="button" (click)="volver()">Volver</button>
+                    <button mat-stroked-button color="primary" type="button" (click)="abrirModalDatosCruciales()">
+                        Editar informacion crucial
+                    </button>
+                    <button mat-flat-button color="primary" type="button" (click)="abrirModalDireccion()">
+                        Editar direccion
+                    </button>
+                </div>
+            </mat-card-content>
+        </mat-card>
+
+        <div class="expediente-context mb-25">
+            <p class="text-muted mb-10">{{ estrategiaMensaje() }}</p>
+            @if (expedientesReunificacion().length > 1) {
+                <mat-form-field appearance="outline" class="expediente-selector">
+                    <mat-label>Expediente seleccionado</mat-label>
+                    <mat-select [value]="expedienteSeleccionado()?._id ?? ''" (valueChange)="onExpedienteChange($event)">
+                        @for (exp of expedientesReunificacion(); track exp._id; let i = $index) {
+                            <mat-option [value]="exp._id">
+                                Expediente {{ i + 1 }} · {{ exp.estado }} · {{ exp.createdAt | date: 'dd/MM/yyyy' }}
+                            </mat-option>
+                        }
+                    </mat-select>
+                </mat-form-field>
+            }
+        </div>
+
+        <app-cuenta-negociacion
+            [cliente]="cliente()!"
+            [expediente]="expedienteSeleccionado()"
+            [agenteId]="expedienteSeleccionado()?.agenteId ?? ''"
+            [documentos]="expedienteSeleccionado()?.documentos ?? []"
+            [cuentaInicial]="cuentaNegociacion()"
+        />
+    }
+</div>

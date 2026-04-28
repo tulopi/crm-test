@@ -1,0 +1,22 @@
+@use '../reunificacion-ui.shared';
+
+:host {
+    display: block;
+}
+
+.limit-select {
+    width: 6.5rem;
+    margin: 0;
+}
+
+.text-end {
+    text-align: end;
+}
+
+.text-muted {
+    color: var(--reunif-muted, #6c757d);
+}
+
+.text-success {
+    color: #28a745;
+}

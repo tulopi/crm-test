@@ -1,0 +1,238 @@
+<div class="feature-page">
+    <app-page-breadcrumb pageTitle="Clientes" currentLabel="Clientes" />
+    <mat-card
+        class="daxa-card mb-25 border-radius bg-white border-none d-block"
+        [class.component-dark-theme]="themeService.isDark()"
+    >
+        <mat-card-header>
+            <mat-card-title class="fw-medium text-black"
+                >Filtros de búsqueda</mat-card-title
+            >
+        </mat-card-header>
+        <mat-card-content>
+            <form
+                [formGroup]="filterForm"
+                (ngSubmit)="buscarClientes()"
+            >
+                <div class="row">
+                    <div class="col-md-6 col-lg-4">
+                        <div class="form-group mb-20">
+                            <mat-form-field class="w-100" subscriptSizing="dynamic">
+                                <mat-label>Nombre</mat-label>
+                                <input
+                                    matInput
+                                    type="text"
+                                    formControlName="nombre"
+                                    autocomplete="given-name"
+                                />
+                            </mat-form-field>
+                        </div>
+                    </div>
+                    <div class="col-md-6 col-lg-4">
+                        <div class="form-group mb-20">
+                            <mat-form-field class="w-100" subscriptSizing="dynamic">
+                                <mat-label>Apellido</mat-label>
+                                <input
+                                    matInput
+                                    type="text"
+                                    formControlName="apellido"
+                                    autocomplete="family-name"
+                                />
+                            </mat-form-field>
+                        </div>
+                    </div>
+                    <div class="col-md-6 col-lg-4">
+                        <div class="form-group mb-20">
+                            <mat-form-field class="w-100" subscriptSizing="dynamic">
+                                <mat-label>DNI, NIE o pasaporte</mat-label>
+                                <input
+                                    matInput
+                                    type="text"
+                                    formControlName="documento"
+                                    autocomplete="off"
+                                />
+                            </mat-form-field>
+                        </div>
+                    </div>
+                    <div class="col-md-6 col-lg-4">
+                        <div class="form-group mb-20">
+                            <mat-form-field class="w-100" subscriptSizing="dynamic">
+                                <mat-label>Teléfono</mat-label>
+                                <input
+                                    matInput
+                                    type="text"
+                                    formControlName="telefono"
+                                    inputmode="tel"
+                                    autocomplete="tel"
+                                />
+                            </mat-form-field>
+                        </div>
+                    </div>
+                    <div class="col-md-6 col-lg-4">
+                        <div class="form-group mb-20">
+                            <mat-form-field class="w-100" subscriptSizing="dynamic">
+                                <mat-label>Correo electrónico</mat-label>
+                                <input
+                                    matInput
+                                    type="email"
+                                    formControlName="email"
+                                    autocomplete="email"
+                                />
+                            </mat-form-field>
+                        </div>
+                    </div>
+                </div>
+                <div class="d-flex flex-wrap align-items-center clientes-acciones">
+                    <button
+                        mat-flat-button
+                        color="primary"
+                        type="submit"
+                    >
+                        Buscar
+                    </button>
+                    <button
+                        mat-stroked-button
+                        type="button"
+                        (click)="limpiarFiltros()"
+                    >
+                        Limpiar filtros
+                    </button>
+                    <button
+                        mat-stroked-button
+                        type="button"
+                        (click)="crearCliente()"
+                    >
+                        Crear cliente
+                    </button>
+                </div>
+            </form>
+        </mat-card-content>
+    </mat-card>
+
+    <mat-card
+        class="daxa-card border-radius bg-white border-none d-block"
+        [class.component-dark-theme]="themeService.isDark()"
+    >
+        <mat-card-header>
+            <mat-card-title class="fw-medium text-black"
+                >Listado de clientes</mat-card-title
+            >
+            <mat-card-subtitle class="text-muted clientes-card-subtitle">
+                {{ dataSource.data.length }} resultado{{
+                    dataSource.data.length === 1 ? '' : 's'
+                }}
+            </mat-card-subtitle>
+        </mat-card-header>
+        <mat-card-content class="daxa-table-card-content">
+            <div class="daxa-data-table">
+                <div class="table-responsive">
+                    <table mat-table [dataSource]="dataSource" class="w-100">
+                        <ng-container matColumnDef="nombreCompleto">
+                            <th
+                                mat-header-cell
+                                *matHeaderCellDef
+                                class="fw-medium text-black"
+                            >
+                                Cliente
+                            </th>
+                            <td mat-cell *matCellDef="let row" class="text-black">
+                                <span class="d-block fw-medium">{{
+                                    row.nombreCompleto
+                                }}</span>
+                            </td>
+                        </ng-container>
+                        <ng-container matColumnDef="documento">
+                            <th
+                                mat-header-cell
+                                *matHeaderCellDef
+                                class="fw-medium text-black"
+                            >
+                                Documento
+                            </th>
+                            <td mat-cell *matCellDef="let row">
+                                {{ row.documento }}
+                            </td>
+                        </ng-container>
+                        <ng-container matColumnDef="movil">
+                            <th
+                                mat-header-cell
+                                *matHeaderCellDef
+                                class="fw-medium text-black"
+                            >
+                                Móvil
+                            </th>
+                            <td mat-cell *matCellDef="let row">
+                                {{ row.movil }}
+                            </td>
+                        </ng-container>
+                        <ng-container matColumnDef="creacion">
+                            <th
+                                mat-header-cell
+                                *matHeaderCellDef
+                                class="fw-medium text-black"
+                            >
+                                Creación
+                            </th>
+                            <td mat-cell *matCellDef="let row">
+                                {{ row.creacion | date: 'dd/MM/yyyy' }}
+                            </td>
+                        </ng-container>
+                        <ng-container matColumnDef="acciones">
+                            <th
+                                mat-header-cell
+                                *matHeaderCellDef
+                                class="fw-medium text-black"
+                            >
+                                Acciones
+                            </th>
+                            <td mat-cell *matCellDef="let row">
+                                <button
+                                    mat-stroked-button
+                                    type="button"
+                                    (click)="abrirFicha(row.id)"
+                                >
+                                    Ver ficha
+                                </button>
+                            </td>
+                        </ng-container>
+                        <tr
+                            mat-header-row
+                            *matHeaderRowDef="displayedColumns"
+                        ></tr>
+                        <tr
+                            mat-row
+                            *matRowDef="let row; columns: displayedColumns"
+                        ></tr>
+                        <tr class="mat-row" *matNoDataRow>
+                            <td
+                                class="mat-cell daxa-table-empty-cell"
+                                [attr.colspan]="displayedColumns.length"
+                            >
+                                <span class="daxa-table-empty-inner">
+                                    <i
+                                        class="ri-inbox-line daxa-table-empty-icon"
+                                        aria-hidden="true"
+                                    ></i>
+                                    <span class="daxa-table-empty-title"
+                                        >Sin resultados</span
+                                    >
+                                    <span class="daxa-table-empty-hint"
+                                        >No hay clientes que coincidan con los
+                                        filtros. Prueba a limpiar o a cambiar la
+                                        búsqueda.</span
+                                    >
+                                </span>
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+                <mat-paginator
+                    [pageSize]="50"
+                    [pageSizeOptions]="[50, 70, 100]"
+                    showFirstLastButtons
+                    aria-label="Seleccionar página de clientes"
+                />
+            </div>
+        </mat-card-content>
+    </mat-card>
+</div>

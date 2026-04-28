@@ -1,0 +1,31 @@
+<div class="logout-area">
+    <div class="d-table">
+        <div class="d-table-cell">
+            <div
+                class="daxa-form ml-auto mr-auto border-radius bg-white"
+                [class.card-borderd-theme]="themeService.isCardBorder()"
+                [class.component-dark-theme]="themeService.isDark()"
+            >
+                <div class="title text-center">
+                    <h3>
+                        Sesión cerrada
+                    </h3>
+                    <p class="ml-auto mr-auto">
+                        Has salido de TRAMICRM correctamente.
+                    </p>
+                </div>
+                <div class="admin text-center">
+                    <div class="logo position-relative rounded-circle">
+                        <img src="images/logo.png" alt="Logotipo TRAMICRM" style="max-width: 160px; height: auto;" />
+                    </div>
+                    <span class="d-block fw-medium">
+                        Tu sesión ya no está activa
+                    </span>
+                </div>
+                <a routerLink="/auth" mat-button class="btn">
+                    Volver a iniciar sesión
+                </a>
+            </div>
+        </div>
+    </div>
+</div>

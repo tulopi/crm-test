@@ -1,0 +1,17 @@
+<form class="proceso-form" [formGroup]="form">
+    <mat-checkbox formControlName="envioEmailDocumentacion">Email de documentacion enviado</mat-checkbox>
+    <mat-checkbox formControlName="contratoFirmado">Contrato firmado</mat-checkbox>
+    <mat-checkbox formControlName="negociacion">Negociacion iniciada</mat-checkbox>
+    <mat-checkbox formControlName="judicializado">Caso judicializado</mat-checkbox>
+
+    <mat-form-field appearance="outline" class="w-100">
+        <mat-label>Comentario del proceso</mat-label>
+        <textarea matInput rows="4" formControlName="comentario"></textarea>
+    </mat-form-field>
+
+    <div class="proceso-actions">
+        <button mat-flat-button color="primary" type="button" (click)="guardar()" [disabled]="readonly">
+            Guardar proceso
+        </button>
+    </div>
+</form>

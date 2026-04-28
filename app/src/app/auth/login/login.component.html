@@ -1,0 +1,104 @@
+<div class="sign-in-area">
+    <div class="d-table">
+        <div class="d-table-cell">
+            <div
+                class="daxa-form ml-auto mr-auto border-radius bg-white"
+                [class.card-borderd-theme]="themeService.isCardBorder()"
+                [class.component-dark-theme]="themeService.isDark()"
+                [class.rtl-enabled]="themeService.isRTLEnabled()"
+            >
+                <div class="title text-center">
+                    <h3>
+                        Iniciar sesión
+                    </h3>
+                </div>
+                <form [formGroup]="authForm" (ngSubmit)="onSubmit()">
+                    <div class="form-group">
+                        <label class="main-label d-block lh-1 text-black">
+                            Correo electrónico
+                        </label>
+                        <mat-form-field>
+                            <mat-label>
+                                Introduce tu correo
+                            </mat-label>
+                            <input matInput type="email" id="email" formControlName="email" autocomplete="username" />
+                        </mat-form-field>
+                        @if (authForm.get('email')!.hasError('required') && authForm.get('email')!.touched) {
+                            <div class="error text-danger">
+                                El correo es obligatorio.
+                            </div>
+                        }
+                        @if (authForm.get('email')!.hasError('email') && authForm.get('email')!.touched) {
+                            <div class="error text-danger">
+                                Introduce un correo electrónico válido.
+                            </div>
+                        }
+                    </div>
+                    <div class="form-group">
+                        <label class="main-label d-block lh-1 text-black">
+                            Extensión
+                        </label>
+                        <mat-form-field>
+                            <mat-label>
+                                Introduce tu extensión
+                            </mat-label>
+                            <input matInput type="text" id="extension" formControlName="extension" inputmode="numeric" autocomplete="tel-extension" />
+                        </mat-form-field>
+                        @if (authForm.get('extension')!.hasError('required') && authForm.get('extension')!.touched) {
+                            <div class="error text-danger">
+                                La extensión es obligatoria.
+                            </div>
+                        }
+                    </div>
+                    <div class="form-group">
+                        <label class="main-label d-block lh-1 text-black">
+                            Contraseña
+                        </label>
+                        <mat-form-field>
+                            <mat-label>
+                                Introduce tu contraseña
+                            </mat-label>
+                            <input
+                                matInput
+                                [type]="hide ? 'password' : 'text'"
+                                id="password"
+                                formControlName="password"
+                                autocomplete="current-password"
+                            />
+                            <button
+                                mat-icon-button
+                                matSuffix
+                                type="button"
+                                (click)="hide = !hide"
+                                [attr.aria-label]="hide ? 'Mostrar contraseña' : 'Ocultar contraseña'"
+                                [attr.aria-pressed]="hide"
+                            >
+                                <span class="material-symbols-outlined">
+                                    {{hide ? 'visibility_off' : 'visibility'}}
+                                </span>
+                            </button>
+                        </mat-form-field>
+                        @if (authForm.get('password')?.hasError('required') && authForm.get('password')?.touched) {
+                            <div class="error text-danger">
+                                La contraseña es obligatoria.
+                            </div>
+                        }
+                        @if (authForm.get('password')!.hasError('minlength') && authForm.get('password')!.touched) {
+                            <div class="error text-danger">
+                                La contraseña debe tener al menos 8 caracteres.
+                            </div>
+                        }
+                    </div>
+                    <div class="info text-end mb-2">
+                        <a routerLink="/auth/forgot-password" class="small text-daxa">
+                            ¿Olvidaste tu contraseña? Haz clic aquí
+                        </a>
+                    </div>
+                    <button mat-button class="btn" type="submit" [disabled]="authForm.invalid">
+                        Entrar
+                    </button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

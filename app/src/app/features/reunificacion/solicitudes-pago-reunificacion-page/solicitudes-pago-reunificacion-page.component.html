@@ -1,0 +1,168 @@
+<div class="feature-page" [class.component-dark-theme]="themeService.isDark()">
+    <app-page-breadcrumb [pageTitle]="pageTitle" [currentLabel]="currentLabel" />
+    <mat-card
+        class="daxa-card border-radius bg-white border-none d-block"
+        [class.component-dark-theme]="themeService.isDark()"
+    >
+        <mat-card-content>
+            <div class="reunif-page" [class.component-dark-theme]="themeService.isDark()">
+                <div class="page-header">
+                    <div class="header-content">
+                        <div>
+                            <h2 class="page-title">
+                                <i class="material-symbols-outlined reunif-icon" aria-hidden="true"
+                                    >receipt_long</i
+                                >
+                                Solicitudes de Pago de Deudas
+                            </h2>
+                            <p class="page-subtitle">Gestión y seguimiento (vista demostración)</p>
+                        </div>
+                        @if (!cargando && totalSolicitudes > 0) {
+                            <div class="header-stats">
+                                <span class="stat-badge"
+                                    ><strong>{{ totalSolicitudes }}</strong> solicitud(es)</span
+                                >
+                            </div>
+                        }
+                    </div>
+                </div>
+
+                <div class="search-section">
+                    <div class="search-card">
+                        <div class="search-header">
+                            <i class="material-symbols-outlined" aria-hidden="true">tune</i>
+                            <span class="search-title">Filtros de búsqueda</span>
+                            <button
+                                matIconButton
+                                type="button"
+                                (click)="toggleFiltros()"
+                                [attr.aria-label]="
+                                    filtrosColapsados() ? 'Expandir filtros' : 'Plegar filtros'
+                                "
+                            >
+                                <mat-icon>{{
+                                    filtrosColapsados() ? 'expand_more' : 'expand_less'
+                                }}</mat-icon>
+                            </button>
+                        </div>
+                        @if (!filtrosColapsados()) {
+                            <div class="search-form">
+                                <div class="filters-grid">
+                                    <div class="filter-item">
+                                        <label>Estado</label>
+                                        <mat-form-field appearance="outline" subscriptSizing="dynamic" class="w-100">
+                                            <mat-select [(ngModel)]="filtroEstado" name="es">
+                                                <mat-option value="todas">Todas</mat-option>
+                                                <mat-option value="pendiente">Pendientes</mat-option>
+                                                <mat-option value="pagadas">Pagadas</mat-option>
+                                                <mat-option value="rechazadas">Rechazadas</mat-option>
+                                            </mat-select>
+                                        </mat-form-field>
+                                    </div>
+                                    <div class="filter-item">
+                                        <label>Elementos por página</label>
+                                        <mat-form-field appearance="outline" subscriptSizing="dynamic" class="w-100">
+                                            <mat-select [(ngModel)]="limitePorPagina" name="lp">
+                                                <mat-option [value]="5">5</mat-option>
+                                                <mat-option [value]="10">10</mat-option>
+                                                <mat-option [value]="20">20</mat-option>
+                                            </mat-select>
+                                        </mat-form-field>
+                                    </div>
+                                    <div class="filter-actions">
+                                        <button
+                                            mat-flat-button
+                                            color="primary"
+                                            type="button"
+                                            (click)="actualizarVista()"
+                                            [disabled]="cargando"
+                                        >
+                                            <mat-icon [class.spin]="cargando">sync</mat-icon>
+                                            Actualizar
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        }
+                    </div>
+                </div>
+
+                @if (cargando) {
+                    <p class="text-center text-body py-4 m-0">Cargando solicitudes…</p>
+                } @else {
+                    <div class="results-header">
+                        <span
+                            >Mostrando
+                            <strong>{{ solicitudes.length }}</strong> de
+                            <strong>{{ totalSolicitudes }}</strong></span
+                        >
+                    </div>
+                    <div class="table-wrap">
+                        <table mat-table [dataSource]="solicitudes" class="w-100 sol-pago-table">
+                            <ng-container matColumnDef="createdAt">
+                                <th mat-header-cell *matHeaderCellDef>Fecha solicitud</th>
+                                <td mat-cell *matCellDef="let s">
+                                    <div class="d-flex flex-column">
+                                        <span>{{ s.createdAt | date: 'dd/MM/yyyy' }}</span>
+                                        <span class="text-small">{{ s.createdAt | date: 'HH:mm' }}</span>
+                                    </div>
+                                </td>
+                            </ng-container>
+                            <ng-container matColumnDef="fechaPago">
+                                <th mat-header-cell *matHeaderCellDef>Fecha pago</th>
+                                <td mat-cell *matCellDef="let s">
+                                    @if (s.fechaPago) {
+                                        {{ s.fechaPago | date: 'dd/MM/yyyy' }}
+                                    } @else {
+                                        <span class="text-muted">—</span>
+                                    }
+                                </td>
+                            </ng-container>
+                            <ng-container matColumnDef="cliente">
+                                <th mat-header-cell *matHeaderCellDef>Cliente</th>
+                                <td mat-cell *matCellDef="let s">{{ s.cliente }}</td>
+                            </ng-container>
+                            <ng-container matColumnDef="acreedor">
+                                <th mat-header-cell *matHeaderCellDef>Acreedor</th>
+                                <td mat-cell *matCellDef="let s">{{ s.acreedor }}</td>
+                            </ng-container>
+                            <ng-container matColumnDef="monto">
+                                <th mat-header-cell *matHeaderCellDef class="text-end">Monto</th>
+                                <td mat-cell *matCellDef="let s" class="text-end text-number">
+                                    {{ s.monto | number: '1.2-2' }} €
+                                </td>
+                            </ng-container>
+                            <ng-container matColumnDef="acuerdo">
+                                <th mat-header-cell *matHeaderCellDef>Acuerdo</th>
+                                <td mat-cell *matCellDef="let s">{{ s.acuerdo }}</td>
+                            </ng-container>
+                            <ng-container matColumnDef="estado">
+                                <th mat-header-cell *matHeaderCellDef>Estado</th>
+                                <td mat-cell *matCellDef="let s">
+                                    <span class="estado-chip" [class.paid]="isPagada(s)">
+                                        {{ s.estado }}
+                                    </span>
+                                </td>
+                            </ng-container>
+                            <ng-container matColumnDef="acciones">
+                                <th mat-header-cell *matHeaderCellDef>Acciones</th>
+                                <td mat-cell *matCellDef="let s">
+                                    <button mat-stroked-button type="button" disabled>Revisar</button>
+                                </td>
+                            </ng-container>
+                            <tr
+                                mat-header-row
+                                *matHeaderRowDef="displayedColumns; sticky: true"
+                            ></tr>
+                            <tr
+                                mat-row
+                                *matRowDef="let row; columns: displayedColumns"
+                                [class.row-pagada]="isPagada(row)"
+                            ></tr>
+                        </table>
+                    </div>
+                }
+            </div>
+        </mat-card-content>
+    </mat-card>
+</div>

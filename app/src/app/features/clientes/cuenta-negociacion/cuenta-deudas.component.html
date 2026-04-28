@@ -1,0 +1,84 @@
+<div class="deudas-toolbar">
+    <p class="deudas-caption">Saldo actual: <strong>{{ saldo | currency: 'EUR' : 'symbol' : '1.2-2' : 'es' }}</strong></p>
+    <button mat-stroked-button type="button" (click)="abrirAlta()" [disabled]="readonly">Nueva deuda</button>
+</div>
+
+@if (mostrarAlta) {
+    <form class="deudas-form" [formGroup]="form">
+        <mat-form-field appearance="outline">
+            <mat-label>Acreedor</mat-label>
+            <input matInput formControlName="acreedor" />
+        </mat-form-field>
+        <mat-form-field appearance="outline">
+            <mat-label>Deuda total (EUR)</mat-label>
+            <input matInput type="number" formControlName="deudaTotal" />
+        </mat-form-field>
+        <mat-form-field appearance="outline">
+            <mat-label>Pago acordado (EUR)</mat-label>
+            <input matInput type="number" formControlName="pagoAcordado" />
+        </mat-form-field>
+        <div class="deudas-actions">
+            <button mat-stroked-button type="button" (click)="cancelarAlta()">Cancelar</button>
+            <button mat-flat-button color="primary" type="button" (click)="crear()">Guardar deuda</button>
+        </div>
+    </form>
+}
+
+<div class="table-responsive">
+    <table mat-table [dataSource]="deudas">
+        <ng-container matColumnDef="acreedor">
+            <th mat-header-cell *matHeaderCellDef>Acreedor</th>
+            <td mat-cell *matCellDef="let row">{{ row.acreedor }}</td>
+        </ng-container>
+
+        <ng-container matColumnDef="estado">
+            <th mat-header-cell *matHeaderCellDef>Estado</th>
+            <td mat-cell *matCellDef="let row">{{ row.estado }}</td>
+        </ng-container>
+
+        <ng-container matColumnDef="total">
+            <th mat-header-cell *matHeaderCellDef>Total</th>
+            <td mat-cell *matCellDef="let row">
+                {{ row.deudaTotal | currency: 'EUR' : 'symbol' : '1.2-2' : 'es' }}
+            </td>
+        </ng-container>
+
+        <ng-container matColumnDef="pagoAcordado">
+            <th mat-header-cell *matHeaderCellDef>Pago acordado</th>
+            <td mat-cell *matCellDef="let row">
+                {{
+                    (row.pagoAcordado ?? 0) > 0
+                        ? (row.pagoAcordado | currency: 'EUR' : 'symbol' : '1.2-2' : 'es')
+                        : 'Sin acuerdo'
+                }}
+            </td>
+        </ng-container>
+
+        <ng-container matColumnDef="acciones">
+            <th mat-header-cell *matHeaderCellDef>Acciones</th>
+            <td mat-cell *matCellDef="let row">
+                <button
+                    mat-button
+                    type="button"
+                    color="primary"
+                    (click)="pagar(row._id)"
+                    [disabled]="readonly || row.estado === 'pagada'"
+                >
+                    Marcar pagada
+                </button>
+                <button
+                    mat-button
+                    type="button"
+                    color="accent"
+                    (click)="registrarSolicitud(row)"
+                    [disabled]="readonly"
+                >
+                    Solicitud pago
+                </button>
+            </td>
+        </ng-container>
+
+        <tr mat-header-row *matHeaderRowDef="columns"></tr>
+        <tr mat-row *matRowDef="let row; columns: columns"></tr>
+    </table>
+</div>

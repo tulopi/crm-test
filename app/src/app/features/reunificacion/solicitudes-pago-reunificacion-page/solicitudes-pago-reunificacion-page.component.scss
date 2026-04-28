@@ -1,0 +1,41 @@
+@use '../reunificacion-ui.shared';
+
+:host {
+    display: block;
+}
+
+.text-end {
+    text-align: end;
+}
+
+.text-number {
+    font-variant-numeric: tabular-nums;
+}
+
+.text-small {
+    font-size: 0.75rem;
+    opacity: 0.8;
+}
+
+.text-muted {
+    color: var(--reunif-muted, #6c757d);
+}
+
+.estado-chip {
+    text-transform: capitalize;
+    font-size: 0.8rem;
+    font-weight: 500;
+    &.paid {
+        color: #1e7e34;
+    }
+}
+
+.spin {
+    animation: spin-ico 0.8s linear infinite;
+}
+
+@keyframes spin-ico {
+    to {
+        transform: rotate(360deg);
+    }
+}

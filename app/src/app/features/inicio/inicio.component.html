@@ -1,0 +1,83 @@
+<div class="feature-page">
+    <app-page-breadcrumb pageTitle="Inicio" currentLabel="Inicio" />
+    <mat-card
+        class="daxa-card mb-25 border-radius bg-white border-none d-block"
+        [class.component-dark-theme]="themeService.isDark()"
+    >
+        <mat-card-header>
+            <mat-card-title class="fw-medium text-black"
+                >¿Qué hago si no funciona algo en el CRM?</mat-card-title
+            >
+        </mat-card-header>
+        <mat-card-content>
+            <p>
+                <strong>LLAMAR AL INSTANTE</strong> a
+                <strong>MANUEL</strong> al número
+                <a href="tel:622061033" class="text-daxa">622 061 033</a>, sin
+                importar la hora ni el momento en el que ocurra.
+            </p>
+            <p>
+                Si el error sucede durante una llamada, se termina de atender al
+                cliente por escrito y se anota en papel lo que ha solicitado, cita,
+                etc. Después se llama a Manuel.
+            </p>
+            <p>
+                Es muy importante
+                <strong
+                    >NO INTENTAR REPETIDAS VECES UNA ACCIÓN QUE NO
+                    FUNCIONA</strong
+                >
+                — esto puede estar sancionado.
+            </p>
+        </mat-card-content>
+    </mat-card>
+
+    <mat-card
+        class="daxa-card border-radius bg-white border-none d-block"
+        [class.component-dark-theme]="themeService.isDark()"
+    >
+        <mat-card-header>
+            <mat-card-title class="fw-medium text-black"
+                >Usuarios CRM + extensión</mat-card-title
+            >
+        </mat-card-header>
+        <mat-card-content class="daxa-table-card-content">
+            <div class="daxa-data-table">
+                <div class="table-responsive">
+                    <table mat-table [dataSource]="agents" class="w-100">
+                        <ng-container matColumnDef="agente">
+                            <th
+                                mat-header-cell
+                                *matHeaderCellDef
+                                class="fw-medium text-black"
+                            >
+                                Agente
+                            </th>
+                            <td mat-cell *matCellDef="let row" class="text-black">
+                                <span class="d-block fw-medium">{{ row.agente }}</span>
+                            </td>
+                        </ng-container>
+                        <ng-container matColumnDef="extension">
+                            <th
+                                mat-header-cell
+                                *matHeaderCellDef
+                                class="fw-medium text-black"
+                            >
+                                Extensión
+                            </th>
+                            <td mat-cell *matCellDef="let row">{{ row.extension }}</td>
+                        </ng-container>
+                        <tr
+                            mat-header-row
+                            *matHeaderRowDef="displayedColumns"
+                        ></tr>
+                        <tr
+                            mat-row
+                            *matRowDef="let row; columns: displayedColumns"
+                        ></tr>
+                    </table>
+                </div>
+            </div>
+        </mat-card-content>
+    </mat-card>
+</div>

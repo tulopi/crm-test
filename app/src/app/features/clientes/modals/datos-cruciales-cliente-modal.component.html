@@ -1,0 +1,58 @@
+<h2 mat-dialog-title>Informacion crucial del cliente</h2>
+
+<mat-dialog-content>
+    <form [formGroup]="form" class="datos-form">
+        <mat-form-field appearance="outline">
+            <mat-label>Nombre preferido</mat-label>
+            <input matInput formControlName="nombrePreferido" />
+        </mat-form-field>
+        <mat-form-field appearance="outline">
+            <mat-label>Movil</mat-label>
+            <input matInput formControlName="movil" />
+        </mat-form-field>
+        <mat-form-field appearance="outline">
+            <mat-label>Telefono secundario</mat-label>
+            <input matInput formControlName="telefonoSecundario" />
+        </mat-form-field>
+        <mat-form-field appearance="outline">
+            <mat-label>Email</mat-label>
+            <input matInput type="email" formControlName="email" />
+        </mat-form-field>
+        <mat-form-field appearance="outline">
+            <mat-label>Documento</mat-label>
+            <input matInput formControlName="documento" />
+        </mat-form-field>
+        <mat-form-field appearance="outline">
+            <mat-label>Estado civil</mat-label>
+            <mat-select formControlName="civilStatus">
+                <mat-option value="">No indica</mat-option>
+                <mat-option value="soltero">Soltero/a</mat-option>
+                <mat-option value="casado">Casado/a</mat-option>
+                <mat-option value="divorciado">Divorciado/a</mat-option>
+                <mat-option value="viudo">Viudo/a</mat-option>
+            </mat-select>
+        </mat-form-field>
+        <mat-form-field appearance="outline">
+            <mat-label>Genero</mat-label>
+            <mat-select formControlName="gender">
+                <mat-option value="">No indica</mat-option>
+                <mat-option value="hombre">Hombre</mat-option>
+                <mat-option value="mujer">Mujer</mat-option>
+                <mat-option value="otro">Otro</mat-option>
+            </mat-select>
+        </mat-form-field>
+        <mat-form-field appearance="outline">
+            <mat-label>Horario inicio</mat-label>
+            <input matInput type="time" formControlName="horarioAtencionInicio" />
+        </mat-form-field>
+        <mat-form-field appearance="outline">
+            <mat-label>Horario fin</mat-label>
+            <input matInput type="time" formControlName="horarioAtencionFin" />
+        </mat-form-field>
+    </form>
+</mat-dialog-content>
+
+<mat-dialog-actions align="end">
+    <button mat-stroked-button type="button" (click)="close()">Cancelar</button>
+    <button mat-flat-button color="primary" type="button" (click)="save()">Guardar</button>
+</mat-dialog-actions>

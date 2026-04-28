@@ -1,0 +1,87 @@
+/**
+ * Tablas de listado al estilo Daxa (p. ej. users-list / contacts):
+ * contenedor .daxa-data-table dentro de mat-card-content.daxa-table-card-content.
+ */
+
+.mat-mdc-card.daxa-card .mat-mdc-card-content.daxa-table-card-content {
+    margin-left: -20px;
+    margin-right: -20px;
+}
+
+.mat-mdc-card.daxa-card .mat-mdc-card-content .daxa-data-table {
+    .mat-mdc-table {
+        min-width: 640px;
+    }
+
+    .mat-mdc-header-cell {
+        text-transform: none !important;
+        font-variant: normal !important;
+    }
+
+    .mat-mdc-paginator {
+        padding: 15px 20px 0;
+    }
+}
+
+/* Estado vacío (*matNoDataRow), tokens del proyecto */
+.daxa-table-empty-cell {
+    padding: 28px 20px !important;
+    text-align: start;
+    vertical-align: top;
+    border-bottom: none !important;
+    background: var(--surface-muted) !important;
+}
+
+.daxa-table-empty-inner {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 8px;
+    max-width: 36rem;
+}
+
+.daxa-table-empty-icon {
+    font-size: 1.75rem;
+    color: var(--color-primary);
+    opacity: 0.9;
+}
+
+.daxa-table-empty-title {
+    font-size: 1rem;
+    font-weight: 600;
+    color: var(--text-primary);
+}
+
+.daxa-table-empty-hint {
+    font-size: 0.875rem;
+    line-height: 1.5;
+    color: var(--text-secondary);
+}
+
+/* Max width 767px — alineado con demo users-list */
+@media only screen and (max-width: 767px) {
+    .mat-mdc-card.daxa-card .mat-mdc-card-content.daxa-table-card-content {
+        margin-left: -15px;
+        margin-right: -15px;
+    }
+
+    .mat-mdc-card.daxa-card .mat-mdc-card-content .daxa-data-table {
+        .mat-mdc-paginator {
+            padding: 10px 15px 0;
+        }
+    }
+}
+
+@media only screen and (min-width: 576px) and (max-width: 767px) {
+    .mat-mdc-card.daxa-card .mat-mdc-card-content.daxa-table-card-content {
+        margin-left: -20px;
+        margin-right: -20px;
+    }
+
+    .mat-mdc-card.daxa-card .mat-mdc-card-content .daxa-data-table {
+        .mat-mdc-paginator {
+            padding-left: 20px;
+            padding-right: 20px;
+        }
+    }
+}

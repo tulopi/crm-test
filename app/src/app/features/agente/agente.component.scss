@@ -1,0 +1,98 @@
+:host {
+    display: block;
+}
+
+/* Aire superior en el contenido de la tarjeta (etiquetas outline menos pegadas al borde). */
+.agente-card-content {
+    padding-top: 12px;
+}
+
+.agente-media {
+    gap: 0.75rem;
+}
+
+.agente-avatar-wrap {
+    width: 90px;
+    height: 90px;
+}
+
+.agente-avatar {
+    object-fit: cover;
+    display: block;
+    border: 2px solid var(--borderColor, rgba(0, 0, 0, 0.08));
+}
+
+:host-context(.dark-theme) .agente-avatar {
+    border-color: rgba(255, 255, 255, 0.12);
+}
+
+.agente-avatar-cam {
+    position: absolute;
+    right: 0;
+    bottom: 0;
+    width: 36px;
+    height: 36px;
+    padding: 0;
+    background: rgba(0, 0, 0, 0.35);
+    color: #fff;
+}
+
+.agente-avatar-cam .material-symbols-outlined {
+    font-size: 20px;
+    line-height: 1;
+}
+
+/* Filas de campos: respiro superior por columna */
+.agente-fields-row > [class*='col-'] {
+    padding-top: 10px;
+}
+
+.agente-mat-field {
+    display: block;
+    margin-top: 2px;
+}
+
+/* Un poco más de aire interno en outline M3 (label / borde superior). */
+:host ::ng-deep .agente-mat-field .mat-mdc-text-field-wrapper {
+    padding-top: 6px;
+}
+
+:host ::ng-deep .agente-mat-field .mat-mdc-form-field-infix {
+    padding-top: 10px;
+    padding-bottom: 8px;
+}
+
+.agente-sep {
+    border: 0;
+    border-top: 1px solid var(--borderColor, rgba(0, 0, 0, 0.08));
+    margin: 1rem 0;
+}
+
+:host-context(.dark-theme) .agente-sep {
+    border-top-color: rgba(255, 255, 255, 0.12);
+}
+
+.font-size-13 {
+    font-size: 13px;
+}
+
+/* Solo el botón «Conectar con Gmail» en rubí de marca (_tokens: --color-primary). */
+.agente-gmail-btn {
+    border-color: var(--color-primary) !important;
+    color: var(--color-primary) !important;
+    font-weight: 500;
+}
+
+.agente-gmail-btn .mdc-button__label,
+.agente-gmail-btn span {
+    color: inherit;
+}
+
+:host ::ng-deep .agente-gmail-btn.mat-mdc-outlined-button:not(:disabled) {
+    --mdc-outlined-button-label-text-color: var(--color-primary);
+    --mdc-outlined-button-outline-color: var(--color-primary);
+}
+
+:host ::ng-deep .agente-gmail-btn.mat-mdc-outlined-button:hover:not(:disabled) {
+    background-color: color-mix(in srgb, var(--color-primary) 12%, transparent);
+}

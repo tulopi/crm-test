@@ -1,0 +1,32 @@
+@use '../reunificacion-ui.shared';
+
+:host {
+    display: block;
+}
+
+.text-end {
+    text-align: end;
+}
+
+.text-number {
+    font-variant-numeric: tabular-nums;
+}
+
+.text-success {
+    color: #28a745;
+}
+.text-warning {
+    color: #d39e00;
+}
+
+.tab-badge {
+    display: inline-flex;
+    min-width: 1.25rem;
+    height: 1.25rem;
+    align-items: center;
+    justify-content: center;
+    border-radius: 999px;
+    font-size: 0.7rem;
+    background: var(--daxaColor, #0f79f9);
+    color: #fff;
+}

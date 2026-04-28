@@ -1,0 +1,146 @@
+<!-- Sidebar -->
+<div
+    [ngClass]="{'active': isToggled}"
+    class="settings-sidebar bg-white box-shadow"
+    [class.component-dark-theme]="themeService.isDark()"
+    [class.component-rtl-enabled]="themeService.isRTLEnabled()"
+>
+    <div class="settings-header bg-gray d-flex align-items-center justify-content-between">
+        <div>
+            <h5 class="m-0">
+                Panel de configuración
+            </h5>
+        </div>
+        <div>
+            <img src="images/logo.png" alt="Logotipo" style="max-height: 32px; width: auto;" />
+        </div>
+    </div>
+    <ng-scrollbar visibility="hover">
+        <div class="settings-body">
+            <div class="p-20">
+                <span class="d-block mb-12 fw-medium">
+                    Modo RTL (derecha a izquierda)
+                </span>
+                <button
+                    type="button"
+                    (click)="toggleRTLEnabledTheme()"
+                    class="switch-btn"
+                    [class.active]="themeService.isRTLEnabled()"
+                    [attr.aria-label]="themeService.isRTLEnabled() ? 'Desactivar RTL' : 'Activar RTL'"
+                >
+                </button>
+            </div>
+            <mat-divider></mat-divider>
+            <div class="p-20">
+                <span class="d-block mb-12 fw-medium">
+                    Modo oscuro
+                </span>
+                <button
+                    type="button"
+                    (click)="toggleTheme()"
+                    class="switch-btn"
+                    [class.active]="themeService.isDark()"
+                    [attr.aria-label]="themeService.isDark() ? 'Desactivar modo oscuro' : 'Activar modo oscuro'"
+                >
+                </button>
+            </div>
+            <mat-divider></mat-divider>
+            <div class="p-20">
+                <span class="d-block mb-12 fw-medium">
+                    Solo barra lateral oscura
+                </span>
+                <button
+                    type="button"
+                    (click)="toggleSidebarTheme()"
+                    class="switch-btn"
+                    [class.active]="themeService.isSidebarDark()"
+                    [attr.aria-label]="themeService.isSidebarDark() ? 'Desactivar barra lateral oscura' : 'Activar barra lateral oscura'"
+                >
+                </button>
+            </div>
+            <mat-divider></mat-divider>
+            <div class="p-20">
+                <span class="d-block mb-12 fw-medium">
+                    Solo cabecera oscura
+                </span>
+                <button
+                    type="button"
+                    (click)="toggleHeaderTheme()"
+                    class="switch-btn"
+                    [class.active]="themeService.isHeaderDark()"
+                    [attr.aria-label]="themeService.isHeaderDark() ? 'Desactivar cabecera oscura' : 'Activar cabecera oscura'"
+                >
+                </button>
+            </div>
+            <mat-divider></mat-divider>
+            <div class="p-20">
+                <span class="d-block mb-12 fw-medium">
+                    Barra lateral a la derecha
+                </span>
+                <button
+                    type="button"
+                    (click)="toggleRightSidebarTheme()"
+                    class="switch-btn"
+                    [class.active]="themeService.isRightSidebar()"
+                    [attr.aria-label]="themeService.isRightSidebar() ? 'Barra lateral a la izquierda' : 'Barra lateral a la derecha'"
+                >
+                </button>
+            </div>
+            <mat-divider></mat-divider>
+            <div class="p-20 hide-sidebar">
+                <span class="d-block mb-12 fw-medium">
+                    Ocultar barra lateral
+                </span>
+                <button
+                    type="button"
+                    (click)="toggleHideSidebarTheme()"
+                    class="switch-btn"
+                    [class.active]="themeService.isHideSidebar()"
+                    [attr.aria-label]="themeService.isHideSidebar() ? 'Mostrar barra lateral' : 'Ocultar barra lateral'"
+                >
+                </button>
+            </div>
+            <mat-divider></mat-divider>
+            <div class="p-20">
+                <span class="d-block mb-12 fw-medium">
+                    Tarjeta con borde
+                </span>
+                <button
+                    type="button"
+                    (click)="toggleCardBorderTheme()"
+                    class="switch-btn"
+                    [class.active]="themeService.isCardBorder()"
+                    [attr.aria-label]="themeService.isCardBorder() ? 'Quitar borde de tarjeta' : 'Añadir borde de tarjeta'"
+                >
+                </button>
+            </div>
+            <mat-divider></mat-divider>
+            <div class="p-20">
+                <span class="d-block mb-12 fw-medium">
+                    Esquinas redondeadas en tarjetas
+                </span>
+                <button
+                    type="button"
+                    (click)="toggleCardBorderRadiusTheme()"
+                    class="switch-btn"
+                    [class.active]="themeService.isCardBorderRadius()"
+                    [attr.aria-label]="themeService.isCardBorderRadius() ? 'Desactivar esquinas redondeadas' : 'Activar esquinas redondeadas'"
+                >
+                </button>
+            </div>
+        </div>
+    </ng-scrollbar>
+</div>
+
+<!-- Settings Button -->
+<button
+    type="button"
+    mat-fab
+    (click)="toggle()"
+    class="daxa settings-btn rounded-circle"
+    [ngClass]="{'active': isToggled}"
+    [class.component-rtl-enabled]="themeService.isRTLEnabled()"
+    aria-label="Abrir o cerrar panel de configuración"
+>
+    <mat-icon>settings</mat-icon>
+</button>

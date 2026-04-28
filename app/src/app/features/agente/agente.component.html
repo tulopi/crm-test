@@ -1,0 +1,253 @@
+<div class="feature-page">
+    <app-page-breadcrumb pageTitle="Perfil" currentLabel="Agente" />
+
+    <form class="agente-form" [formGroup]="agentForm" (ngSubmit)="guardarAgente()">
+        <mat-card
+            class="daxa-card border-radius bg-white border-none d-block mb-25"
+            [class.component-dark-theme]="themeService.isDark()"
+        >
+            <mat-card-content class="agente-card-content">
+                <div class="agente-media d-flex flex-wrap align-items-start mb-25">
+                    <div class="agente-avatar-wrap position-relative flex-shrink-0">
+                        <img
+                            [src]="getAvatarUrl()"
+                            (error)="onAvatarError($event)"
+                            alt=""
+                            width="90"
+                            height="90"
+                            class="agente-avatar rounded-circle cursor-pointer"
+                            (click)="seleccionarImagen()"
+                            (keydown.enter)="seleccionarImagen()"
+                            tabindex="0"
+                            role="button"
+                        />
+                        <button
+                            type="button"
+                            mat-icon-button
+                            class="agente-avatar-cam"
+                            aria-label="Cambiar foto"
+                            (click)="seleccionarImagen(); $event.stopPropagation()"
+                        >
+                            <span class="material-symbols-outlined">photo_camera</span>
+                        </button>
+                        <input
+                            type="file"
+                            #fileInput
+                            class="d-none"
+                            accept="image/*"
+                            (change)="subirImagen($event)"
+                        />
+                    </div>
+                    <div class="agente-media-body mt-2 mt-sm-0 ml-sm-3">
+                        <h4 class="fw-medium text-black mb-1">{{ agentForm.controls.name.value }}</h4>
+                        <span class="text-body">{{ agentForm.controls.position.value }}</span>
+                    </div>
+                </div>
+
+                <div class="row agente-fields-row">
+                    <div class="col-md-4">
+                        <mat-form-field appearance="outline" class="w-100 agente-mat-field" subscriptSizing="dynamic">
+                            <mat-label>Usuario</mat-label>
+                            <input matInput [value]="username" disabled />
+                        </mat-form-field>
+                    </div>
+                    <div class="col-md-4">
+                        <mat-form-field appearance="outline" class="w-100 agente-mat-field" subscriptSizing="dynamic">
+                            <mat-label>Contraseña</mat-label>
+                            <input matInput type="password" formControlName="password" autocomplete="new-password" />
+                        </mat-form-field>
+                    </div>
+                    <div class="col-md-4">
+                        <mat-form-field appearance="outline" class="w-100 agente-mat-field" subscriptSizing="dynamic">
+                            <mat-label>Nombre completo</mat-label>
+                            <input matInput formControlName="name" placeholder="Manuel Corrales" />
+                        </mat-form-field>
+                    </div>
+                    <div class="col-md-4">
+                        <mat-form-field appearance="outline" class="w-100 agente-mat-field" subscriptSizing="dynamic">
+                            <mat-label>E-mail trabajo</mat-label>
+                            <input matInput type="email" [value]="emailTrabajo" disabled />
+                        </mat-form-field>
+                    </div>
+                    <div class="col-md-4">
+                        <mat-form-field appearance="outline" class="w-100 agente-mat-field" subscriptSizing="dynamic">
+                            <mat-label>Estado</mat-label>
+                            <input matInput [value]="estadoActivoTexto()" readonly />
+                        </mat-form-field>
+                    </div>
+                    <div class="col-md-4">
+                        <mat-form-field appearance="outline" class="w-100 agente-mat-field" subscriptSizing="dynamic">
+                            <mat-label>DNI/NIE</mat-label>
+                            <input matInput formControlName="dni" placeholder="DNI" />
+                        </mat-form-field>
+                    </div>
+                    <div class="col-md-4">
+                        <mat-form-field appearance="outline" class="w-100 agente-mat-field" subscriptSizing="dynamic">
+                            <mat-label>Número empresa</mat-label>
+                            <input matInput type="number" formControlName="numero" placeholder="Número" />
+                        </mat-form-field>
+                    </div>
+                </div>
+
+                <hr class="agente-sep" />
+                <p class="text-center text-body font-italic mb-20">Ajustes adicionales</p>
+                <hr class="agente-sep" />
+
+                <div class="row agente-fields-row">
+                    <div class="col-md-6">
+                        <mat-form-field appearance="outline" class="w-100 agente-mat-field" subscriptSizing="dynamic">
+                            <mat-label>Nombre para mostrar en «enviado por»</mat-label>
+                            <input matInput formControlName="gmail_showName" placeholder="Nombre Apellido" />
+                            <mat-hint>Ej.: Manuel Corrales</mat-hint>
+                        </mat-form-field>
+                    </div>
+                    <div class="col-md-6">
+                        <mat-form-field appearance="outline" class="w-100 agente-mat-field" subscriptSizing="dynamic">
+                            <mat-label>Email de Tramitex (cuenta Google)</mat-label>
+                            <input matInput formControlName="gmail_username" placeholder="empleada@tramitex.es" />
+                            <mat-hint>Para envíos desde el CRM</mat-hint>
+                        </mat-form-field>
+                    </div>
+                    <div class="col-md-12">
+                        <p class="text-body mb-12">
+                            Paso requerido para enviar emails: la cuenta debe permitir el acceso configurado por
+                            administración.
+                        </p>
+                        <button type="button" mat-stroked-button class="w-100 agente-gmail-btn" (click)="conectarGmail()">
+                            Conectar con Gmail
+                        </button>
+                    </div>
+                </div>
+
+                @if (permissions.canEditAdminFields()) {
+                    <hr class="agente-sep" />
+                    <p class="text-center text-body font-italic mb-20">Ajustes administrativos</p>
+                    <hr class="agente-sep" />
+
+                    <div class="row agente-fields-row">
+                        <div class="col-md-4">
+                            <mat-form-field appearance="outline" class="w-100 agente-mat-field" subscriptSizing="dynamic">
+                                <mat-label>Cargo</mat-label>
+                                <input matInput formControlName="position" placeholder="Cargo" />
+                            </mat-form-field>
+                        </div>
+                        <div class="col-md-4">
+                            <mat-form-field appearance="outline" class="w-100 agente-mat-field" subscriptSizing="dynamic">
+                                <mat-label>Rol</mat-label>
+                                <mat-select formControlName="role" placeholder="Selecciona un rol">
+                                    <mat-option [value]="null" disabled>Selecciona un rol</mat-option>
+                                    @for (rol of roles; track rol._id) {
+                                        <mat-option [value]="rol._id">{{ rol.name }}</mat-option>
+                                    }
+                                </mat-select>
+                                <mat-hint>Define los permisos del agente</mat-hint>
+                            </mat-form-field>
+                        </div>
+                        <div class="col-md-4">
+                            <mat-form-field appearance="outline" class="w-100 agente-mat-field" subscriptSizing="dynamic">
+                                <mat-label>Extensión</mat-label>
+                                <input matInput type="number" formControlName="extension" placeholder="Extensión" />
+                            </mat-form-field>
+                        </div>
+                        <div class="col-md-4">
+                            <mat-form-field appearance="outline" class="w-100 agente-mat-field" subscriptSizing="dynamic">
+                                <mat-label>Cuenta WhatsApp</mat-label>
+                                <mat-select formControlName="cuentaWhatsapp">
+                                    <mat-option [value]="null" disabled>Selecciona una cuenta</mat-option>
+                                    <mat-option value="tramideudas">Tramideudas</mat-option>
+                                    <mat-option value="admin">Admin</mat-option>
+                                </mat-select>
+                            </mat-form-field>
+                        </div>
+                        <div class="col-md-4">
+                            <mat-form-field appearance="outline" class="w-100 agente-mat-field" subscriptSizing="dynamic">
+                                <mat-label>Central de estadísticas</mat-label>
+                                <mat-select formControlName="estadistica">
+                                    @for (op of estadisticasOpciones; track op.value) {
+                                        <mat-option [value]="op.value">{{ op.label }}</mat-option>
+                                    }
+                                </mat-select>
+                                <mat-hint>Estadística que verá en el escritorio</mat-hint>
+                            </mat-form-field>
+                        </div>
+                        <div class="col-md-12">
+                            <mat-form-field appearance="outline" class="w-100 agente-mat-field" subscriptSizing="dynamic">
+                                <mat-label>Productos que gestiona</mat-label>
+                                <mat-select formControlName="capacidades" multiple>
+                                    @for (grupo of productosPorCategoria; track grupo.categoria) {
+                                        <mat-optgroup [label]="grupo.categoria">
+                                            @for (p of grupo.items; track p._id) {
+                                                <mat-option [value]="p._id">{{ p.nombre }}</mat-option>
+                                            }
+                                        </mat-optgroup>
+                                    }
+                                </mat-select>
+                            </mat-form-field>
+                        </div>
+                        <div class="col-md-12">
+                            <mat-form-field appearance="outline" class="w-100 agente-mat-field" subscriptSizing="dynamic">
+                                <mat-label>Departamentos que gestiona</mat-label>
+                                <mat-select formControlName="departamento" multiple>
+                                    @for (d of departamentos; track d._id) {
+                                        <mat-option [value]="d._id">{{ d.nombre }}</mat-option>
+                                    }
+                                </mat-select>
+                            </mat-form-field>
+                        </div>
+                        <div class="col-md-12">
+                            <span class="d-block text-black fw-medium mb-10">Gestionar potenciales</span>
+                            <div class="d-flex flex-wrap align-items-center mb-10">
+                                @for (opcion of gestionarPotencialesOpciones; track opcion) {
+                                    <mat-checkbox
+                                        class="mr-15 mb-5"
+                                        [checked]="isPotencialSeleccionado(opcion)"
+                                        (change)="onGestionarPotencialesChange(opcion, $event.checked)"
+                                    >
+                                        {{ opcion }}
+                                    </mat-checkbox>
+                                }
+                            </div>
+                            <p class="text-body font-size-13 mb-0">Selecciona los estados de potenciales que puede gestionar.</p>
+                        </div>
+
+                        <hr class="agente-sep col-12" />
+                        <div class="col-md-12">
+                            <span class="d-block text-black fw-medium mb-10">Configuración WaLead</span>
+                            <button type="button" mat-stroked-button color="primary" class="w-100 mb-10" (click)="abrirDialogoWaLead()">
+                                Configurar WaLead
+                            </button>
+                            <p class="text-body font-size-13 mb-0">
+                                Empresa: {{ agentForm.controls.waLead.controls.empresa.value || 'No configurada' }} | Recibir:
+                                {{ agentForm.controls.waLead.controls.recibir.value ? 'Sí' : 'No' }} | Sectores:
+                                {{ agentForm.controls.waLead.controls.sectores.value.length }}
+                            </p>
+                        </div>
+
+                        <div class="col-md-12">
+                            <mat-checkbox formControlName="actived">
+                                Activar o desactivar a {{ username }}
+                            </mat-checkbox>
+                        </div>
+                        <div class="col-md-12">
+                            <mat-checkbox formControlName="puedeVerDocumentosWsp">
+                                Puede ver documentos de WhatsApp
+                            </mat-checkbox>
+                            <p class="text-body font-size-13 mb-0">
+                                Permite al agente acceder al módulo de documentos de WhatsApp.
+                            </p>
+                        </div>
+                    </div>
+                }
+            </mat-card-content>
+        </mat-card>
+
+        <div class="d-flex flex-wrap mt-2">
+            <button mat-flat-button color="primary" type="submit" [disabled]="editando()">
+                @if (editando()) {
+                    <mat-spinner diameter="20" class="d-inline-block align-middle mr-2"></mat-spinner>
+                }
+                Guardar cambios
+            </button>
+        </div>
+    </form>
+</div>

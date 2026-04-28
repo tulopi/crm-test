@@ -1,0 +1,29 @@
+<div class="feature-page" [class.component-dark-theme]="themeService.isDark()">
+    <app-page-breadcrumb pageTitle="Reunificación" currentLabel="Panel" />
+    <mat-card
+        class="daxa-card mb-25 border-radius bg-white border-none d-block"
+        [class.component-dark-theme]="themeService.isDark()"
+    >
+        <mat-card-header>
+            <mat-card-title class="fw-medium">Reunificacion</mat-card-title>
+        </mat-card-header>
+        <mat-card-content>
+            <p class="text-body mb-3 text-muted m-0">
+                Accesos a las mismas áreas que el bloque Reunificacion de Ley Segunda Oportunidad (vista
+                de demostración, sin conexión a API).
+            </p>
+            <div class="hub-grid">
+                @for (a of accesos; track a.route) {
+                    <a
+                        mat-stroked-button
+                        [routerLink]="a.route"
+                        class="d-flex align-items-center gap-2 w-100"
+                    >
+                        <i class="material-symbols-outlined" aria-hidden="true">{{ a.icon }}</i>
+                        <span class="text-start text-wrap flex-grow-1">{{ a.label }}</span>
+                    </a>
+                }
+            </div>
+        </mat-card-content>
+    </mat-card>
+</div>

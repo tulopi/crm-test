@@ -1,0 +1,149 @@
+// Include theming for Angular Material with `mat.theme()`.
+// This Sass mixin will define CSS variables that are used for styling Angular Material
+// components according to the Material 3 design spec.
+// Learn more about theming and how to use it for your application's
+// custom components at https://material.angular.dev/guide/theming
+@use '@angular/material' as mat;
+
+@import "./tokens";
+
+html {
+    @include mat.theme((
+        color: (
+            primary: mat.$rose-palette,
+            tertiary: mat.$yellow-palette,
+        ),
+        typography: (
+            plain-family: ('Plus Jakarta Sans', sans-serif),
+            brand-family: ('Space Grotesk', sans-serif),
+            bold-weight: 600,
+            medium-weight: 500,
+            regular-weight: 400,
+        ),
+        density: 0,
+    ));
+}
+
+/* Estilos globales (tokens en _tokens.scss) */
+*, ::after, ::before {
+    box-sizing: border-box;
+}
+body {
+    margin: 0;
+    padding: 0;
+    color: var(--blackColor);
+    background-color: var(--surface-page);
+    font: {
+        weight: 400;
+        size: var(--fontSize);
+        family: var(--fontFamily);
+    };
+}
+a {
+    transition: var(--transition);
+    color: var(--blackColor);
+    text-decoration: none;
+    outline: 0 !important;
+
+    &:hover {
+        text-decoration: none;
+        color: var(--daxaColor);
+    }
+}
+.d-table {
+    width: 100%;
+    height: 100%;
+
+    &-cell {
+        vertical-align: middle;
+    }
+}
+img {
+    max-width: 100%;
+    height: auto;
+}
+input {
+    font: {
+        family: var(--fontFamily);
+        size: var(--fontSize);
+    };
+}
+button {
+    font: {
+        family: var(--fontFamily) !important;
+        size: var(--fontSize) !important;
+    };
+}
+.mb-25 {
+    margin-bottom: 25px !important;
+}
+
+// Utilities CSS
+@import "./utilities";
+
+// UI Kit CSS
+@import "./ui-kit";
+
+// Typography CSS
+@import "./typography";
+
+// Tablas listado Daxa (features con mat-table en daxa-card)
+@import "./daxa-data-table";
+
+// RTL CSS
+@import "./rtl";
+
+// Dark CSS
+@import "./dark";
+
+/* Max width 767px */
+@media only screen and (max-width : 767px) {
+
+    body {
+        font-size: 14px;
+    }
+    .mb-25 {
+        margin-bottom: 15px !important;
+    }
+    button {
+        font-size: 14px !important;
+    }
+
+}
+
+/* Min width 576px to Max width 767px */
+@media only screen and (min-width : 576px) and (max-width : 767px) {
+
+    .mb-25 {
+        margin-bottom: 20px !important;
+    }
+
+}
+
+/* Min width 768px to Max width 991px */
+@media only screen and (min-width : 768px) and (max-width : 991px) {
+
+    body {
+        font-size: 15px;
+    }
+    button {
+        font-size: 15px !important;
+    }
+
+}
+
+/* Min width 992px to Max width 1199px */
+@media only screen and (min-width : 992px) and (max-width : 1199px) {}
+
+/* Min width 1200px to Max width 1399px */
+@media only screen and (min-width: 1200px) and (max-width: 1399px) {}
+
+/* Min width 1600px */
+@media only screen and (min-width: 1600px) {}
+html, body {
+    height: 100%;
+}
+body {
+    margin: 0;
+    font-family: var(--fontFamily);
+}

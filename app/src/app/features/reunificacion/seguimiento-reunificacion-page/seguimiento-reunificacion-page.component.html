@@ -1,0 +1,123 @@
+<div class="feature-page" [class.component-dark-theme]="themeService.isDark()">
+    <app-page-breadcrumb [pageTitle]="pageTitle" [currentLabel]="currentLabel" />
+    <mat-card
+        class="daxa-card border-radius bg-white border-none d-block"
+        [class.component-dark-theme]="themeService.isDark()"
+    >
+        <mat-card-content>
+            <div class="reunif-page" [class.component-dark-theme]="themeService.isDark()">
+                <div class="page-header">
+                    <div class="header-content">
+                        <div>
+                            <h2 class="page-title">
+                                <i class="material-symbols-outlined reunif-icon" aria-hidden="true">call</i>
+                                Seguimiento de Clientes con Cuenta de Reunificación
+                            </h2>
+                            <p class="page-subtitle">
+                                Gestiona el seguimiento y comunicaciones (vista demostración)
+                            </p>
+                        </div>
+                        @if (activeTab() === 'seguimiento' && totalRegistros > 0) {
+                            <div class="header-stats">
+                                <span class="stat-badge"
+                                    ><strong>{{ totalRegistros }}</strong> registro(s)</span
+                                >
+                            </div>
+                        }
+                    </div>
+                </div>
+
+                <div class="reunif-tabs">
+                    <button
+                        mat-stroked-button
+                        [color]="activeTab() === 'seguimiento' ? 'primary' : null"
+                        (click)="setTab('seguimiento')"
+                        type="button"
+                    >
+                        <mat-icon class="me-1">view_list</mat-icon>
+                        Seguimiento
+                    </button>
+                    <button
+                        mat-stroked-button
+                        [color]="activeTab() === 'agenda' ? 'primary' : null"
+                        (click)="setTab('agenda')"
+                        type="button"
+                    >
+                        <mat-icon class="me-1">event</mat-icon>
+                        Agenda
+                        @if (agenda.length > 0) {
+                            <span class="tab-badge ms-1">{{ totalAgenda }}</span>
+                        }
+                    </button>
+                </div>
+
+                @if (activeTab() === 'seguimiento') {
+                    <div class="table-wrap">
+                        <table mat-table [dataSource]="seguimiento" class="w-100">
+                            <ng-container matColumnDef="cliente">
+                                <th mat-header-cell *matHeaderCellDef>Cliente</th>
+                                <td mat-cell *matCellDef="let row">{{ row.cliente }}</td>
+                            </ng-container>
+                            <ng-container matColumnDef="gestor">
+                                <th mat-header-cell *matHeaderCellDef>Gestor</th>
+                                <td mat-cell *matCellDef="let row">{{ row.gestor }}</td>
+                            </ng-container>
+                            <ng-container matColumnDef="tienePlan">
+                                <th mat-header-cell *matHeaderCellDef>Plan</th>
+                                <td mat-cell *matCellDef="let row">
+                                    <span [class.text-success]="row.tienePlan" [class.text-warning]="!row.tienePlan">
+                                        {{ planChip(row.tienePlan) }}
+                                    </span>
+                                </td>
+                            </ng-container>
+                            <ng-container matColumnDef="estadoCuota">
+                                <th mat-header-cell *matHeaderCellDef>Estado cuota</th>
+                                <td mat-cell *matCellDef="let row">{{ row.estadoCuota }}</td>
+                            </ng-container>
+                            <ng-container matColumnDef="saldo">
+                                <th mat-header-cell *matHeaderCellDef class="text-end">Saldo</th>
+                                <td mat-cell *matCellDef="let row" class="text-end text-number">
+                                    {{ row.saldo | number: '1.0-0' }} €
+                                </td>
+                            </ng-container>
+                            <ng-container matColumnDef="proximaAccion">
+                                <th mat-header-cell *matHeaderCellDef>Próx. acción</th>
+                                <td mat-cell *matCellDef="let row">
+                                    <button mat-button type="button" color="primary">
+                                        {{ row.proximaAccion }}
+                                    </button>
+                                </td>
+                            </ng-container>
+                            <tr mat-header-row *matHeaderRowDef="displayedSegColumns; sticky: true"></tr>
+                            <tr mat-row *matRowDef="let row; columns: displayedSegColumns"></tr>
+                        </table>
+                    </div>
+                } @else {
+                    <div class="table-wrap">
+                        <table mat-table [dataSource]="agenda" class="w-100">
+                            <ng-container matColumnDef="titulo">
+                                <th mat-header-cell *matHeaderCellDef>Acción / tarea</th>
+                                <td mat-cell *matCellDef="let row">{{ row.titulo }}</td>
+                            </ng-container>
+                            <ng-container matColumnDef="cuando">
+                                <th mat-header-cell *matHeaderCellDef>Cuándo</th>
+                                <td mat-cell *matCellDef="let row">
+                                    {{ row.cuando | date: 'dd/MM/yyyy HH:mm' }}
+                                </td>
+                            </ng-container>
+                            <ng-container matColumnDef="tipo">
+                                <th mat-header-cell *matHeaderCellDef>Tipo</th>
+                                <td mat-cell *matCellDef="let row">{{ row.tipo }}</td>
+                            </ng-container>
+                            <tr
+                                mat-header-row
+                                *matHeaderRowDef="displayedAgendaColumns; sticky: true"
+                            ></tr>
+                            <tr mat-row *matRowDef="let row; columns: displayedAgendaColumns"></tr>
+                        </table>
+                    </div>
+                }
+            </div>
+        </mat-card-content>
+    </mat-card>
+</div>
